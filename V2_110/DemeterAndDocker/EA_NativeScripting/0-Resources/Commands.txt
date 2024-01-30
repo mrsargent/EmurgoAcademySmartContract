@@ -1,0 +1,16 @@
+//query to find the TxHash of a particular address.  Basically to find information on utxos
+cardano-cli query utxo --address ADDRESS -- testnet-magic 2
+
+cardano-cli --version
+cardano-cli query tip --testnet-magic 2
+cardano-cli address key-gen
+cardano-cli stake-address key-gen
+cardano-cli addres build 
+
+//to get help on anything you can use --help
+cardano-cli --help
+cardano-cli query --help
+cardano-cli address --help
+// etc...
+
+

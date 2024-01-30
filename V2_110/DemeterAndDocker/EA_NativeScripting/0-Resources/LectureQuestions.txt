@@ -1,0 +1,7 @@
+// 1/28/2024 session
+
+1. I don't understand what is happening to the UTXO after I send my transaction.  Why does the previous TxHash disappear and new ones appear??  I expected to see the new TxHash of the transaction I just sent
+but I also expected to see the old one that was previously there.   Wait.. I think I know.  On homework #3 where I sent 2 tranaction to myself
+and 3 transactions to Roberto is that why I have 3 TxHash in my UTXO.  Index 0 and 1 are going to me and index 5 is for the change???
+
+2. How do I add commands to my .bashrc?
