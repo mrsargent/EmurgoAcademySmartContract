@@ -5,3 +5,5 @@ but I also expected to see the old one that was previously there.   Wait.. I thi
 and 3 transactions to Roberto is that why I have 3 TxHash in my UTXO.  Index 0 and 1 are going to me and index 5 is for the change???
 
 2. How do I add commands to my .bashrc?
+3. What are these payment.unsigned and protocol.params files?
+
