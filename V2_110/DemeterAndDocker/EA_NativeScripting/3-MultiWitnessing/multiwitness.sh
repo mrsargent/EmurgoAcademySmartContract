@@ -11,8 +11,8 @@ cardano-cli transaction build \
   --out-file paymw.unsigned
 
 cardano-cli transaction witness \
-  --tx-body-file paymw.unsigned \
-  --signing-key-file  ../../Wallets/Adr01.skey \
+  --tx-body-file ../3-MultiWitnessing/worldpay.unsigned \
+  --signing-key-file  ../1-SimplePayment/en107.skey \
   --testnet-magic 2 \
   --out-file Adr01.witness
 

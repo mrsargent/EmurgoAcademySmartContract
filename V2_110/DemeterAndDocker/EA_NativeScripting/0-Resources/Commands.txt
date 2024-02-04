@@ -6,6 +6,8 @@ cardano-cli query tip --testnet-magic 2
 cardano-cli address key-gen
 cardano-cli stake-address key-gen
 cardano-cli addres build 
+//address creation without staking key.  Look at lesson 0 for code on how to build with staking key
+cardano-cli address build --payment-verification-key-file multiSigEx.vkey --out-file multiSig.addr --testnet-magic 2
 
 //to get help on anything you can use --help
 cardano-cli --help
