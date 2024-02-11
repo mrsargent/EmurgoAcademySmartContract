@@ -16,3 +16,7 @@ cardano-cli address --help
 // etc...
 
 
+//creating
+cardano-cli address key-hash --payment-verification-key-file "**".vkey --out-file "**".pkh
+
+cardano-cli transaction policyid --script-file fileName.plutus > filename.pid
