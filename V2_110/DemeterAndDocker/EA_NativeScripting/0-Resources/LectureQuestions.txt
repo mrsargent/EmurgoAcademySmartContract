@@ -13,4 +13,11 @@ and 3 transactions to Roberto is that why I have 3 TxHash in my UTXO.  Index 0 a
 
  (curency symbol) + (token name) = asset class
 
+tokenname=$(echo -n "MrWo4nderfullCoin" | xxd -ps | tr -d '\n')  this is a linux funciton that turns a string
+aka "MrWo4nderfullCoin" in a byte 16 encoded number 
  
+******* added variables AdrBatch, AdrEn, AdrMulti 
+
+// 02/11/24
+questions from homework.  I don't get the output of Ada associated with creating native tokens or NFTs.  I minted and sent an NFT and arbirarily put 20ADA to send with that for the cost of minting the NFT. 
+It took all my 20 ADA.  Why did it take all my 20 ADA? What if I put 10ADA? Doesn't make sense right now.

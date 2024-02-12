@@ -1,16 +1,17 @@
-utxoin="558c3e159d48453297c2f1d9c522c2948cba540515a51a93db9e92a7a12c2b45#0"
-policyid=$(cat NFTpolicy.id)
-address="addr_test1qp65draw5za4msm4sqp9wtv4yejvehecceml20cc6waewrjfqx4dgsjqxh2gql7zjr2776l3thnxgtcvjg3cm8dad3lqn484e6"
-output="22000000"
-tokenname=$(echo -n "BobMecha" | xxd -ps | tr -d '\n')
-tokenammount="1"
-collateral="4cbf990857530696a12b0062546a4b123ad0bef21c67562e32d03e3288bdcd7b#0"
-signerPKH="697a501b7d05766b3d08e39dab43e0f170973d3398b28745b3b8ce55"
+utxoin="c6c1d04f61ee6845876f5c8513f366661cb410e0bb8dde958e36f23d240eb186#0"
+policyid=$(cat RyanNFTpolicy.id)
+address="addr_test1qpc6mrwu9cucrq4w6y69qchflvypq76a47ylvjvm2wph4szeq579yu2z8s4m4tn0a9g4gfce50p25afc24knsf6pj96sz35wnt"  #destination address... where I am sending the nft to 
+output="20000000"
+tokenname="5279616e535f4e4654" #$(echo -n "RyanS_NFT" | xxd -ps | tr -d '\n')
+tokenammount="1"  #nft is only allowed 1
+collateral="9e2b4cc334e5a726f32bb0727a6c735a4e0e3d2754418e0422787a9f330ed294#1"
+signerPKH="1aac37c39f0341089f5c6b3e96034c1d7ce82c05b587c44086b9fb7e"
 
 #cardano-cli transaction policyid --script-file NFTpolicy.script > NFTpolicy.id
 
 cardano-cli query protocol-parameters --testnet-magic 2 --out-file protocol.params
-
+#note: on teh signing-key-file.  I only had 1 key sign because that one key provided the utxo to send, and the colateral, and the minting policy. 
+# if I had other keys doing other thigns they would need to be there as well
 cardano-cli transaction build \
   --babbage-era \
   --testnet-magic 2 \
@@ -18,18 +19,17 @@ cardano-cli transaction build \
   --required-signer-hash $signerPKH \
   --tx-in-collateral $collateral \
   --tx-out $address+$output+"$tokenammount $policyid.$tokenname" \
-  --change-address $Adr01 \
+  --change-address $AdrBatch \
   --mint "$tokenammount $policyid.$tokenname" \
-  --mint-script-file NFTpolicy.script \
-  --invalid-before 13136667 \
-  --metadata-json-file NFTmetadata.json \
+  --mint-script-file RyanNFTpolicy.script \
+  --invalid-hereafter 41212182 \
+  --metadata-json-file RyanNFTMetadata.json \
   --protocol-params-file protocol.params \
   --out-file NFTminting.unsigned
 
 cardano-cli transaction sign \
   --tx-body-file NFTminting.unsigned \
-  --signing-key-file ../../Wallets/Adr01.skey \
-  --signing-key-file ../../Wallets/Adr07.skey \
+  --signing-key-file ../1-SimplePayment/batch107.skey \ 
   --testnet-magic 2 \
   --out-file NFTminting.signed
 

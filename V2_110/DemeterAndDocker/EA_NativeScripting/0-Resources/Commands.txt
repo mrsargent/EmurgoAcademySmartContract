@@ -19,4 +19,7 @@ cardano-cli address --help
 //creating
 cardano-cli address key-hash --payment-verification-key-file "**".vkey --out-file "**".pkh
 
-cardano-cli transaction policyid --script-file fileName.plutus > filename.pid
+// the > filename.pid is optional.  if you don't put the > filename.pid then the policyid is
+// written to the terminal.  If yout do have the > filename.pid then it creates a file and writes 
+// it to that file.. This is a linux function.  This function produces the "Currency Symbol"
+cardano-cli transaction policyid --script-file (fileName.plutus or filename.script) > filename.pid
