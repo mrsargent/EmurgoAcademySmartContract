@@ -3,7 +3,7 @@
     "scripts": [
         {
             "type": "before",
-            "slot": 41212182,
+            "slot": 42212183,
             "scripts": [
                 {
                     "type": "any",
@@ -22,7 +22,7 @@
         },
         {
             "type": "after",
-            "slot": 41212182,
+            "slot": 42212183,
             "scripts": [
                 {
                     "type": "all",

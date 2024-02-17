@@ -1,6 +1,6 @@
 utxoin="518ced66d03c090eac406b39b6d765d5b223d23d0b0856be9bee73a5d1f878b0#1"
 policyid=$(cat policyB107.id)
-address="addr_test1qpc6mrwu9cucrq4w6y69qchflvypq76a47ylvjvm2wph4szeq579yu2z8s4m4tn0a9g4gfce50p25afc24knsf6pj96sz35wnt"
+address="addr_test1qra8k09mn7l2u8lxx4rxm02k3gkke0sqryyp945vrah07zazp3w92v4thwflwrxqjuu087sy6veycx3wmnwxtxwrt77q0e6rnl"
 output="11000000"
 tokenname=$(echo -n "RyanIsAwesomeCoin" | xxd -ps | tr -d '\n')
 tokenammount="501"
