@@ -187,3 +187,4 @@ Execute
 This will build the plutus documentation. 
 Once it is running, open up your browser and navigate to http://0.0.0.0:8002/haddock. If this site doesn't work, navigate to http://localhost:8002/haddock
 
+# EmurgoAcademySmartContract
