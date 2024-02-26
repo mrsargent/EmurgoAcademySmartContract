@@ -7,7 +7,7 @@ module AlwaysSucceedandFail where
 --PlutusTx 
 import                  PlutusTx                       (BuiltinData, compile)
 import                  PlutusTx.Builtins              as Builtins (mkI)
-import                  PlutusTx.Prelude               (error, otherwise, (==), Bool (..), Integer)
+import                  PlutusTx.Prelude               (error, otherwise, (==), Bool (..), Integer,(||))
 import                  Plutus.V2.Ledger.Api        as PlutusV2
 --Serialization
 import                  Serialization    (writeValidatorToFile, writeDataToFile)
@@ -35,6 +35,12 @@ datum22 datum _ _
  | datum == mkI 22     = ()
  | otherwise           = error ()
 
+{-# INLINABLE redeemEqual #-}
+redeemEqual :: BuiltinData -> BuiltinData -> BuiltinData -> ()
+redeemEqual d r _ 
+ | (d == r) || (r == mkI 11)        = ()
+ | otherwise                        = error ()
+
 
 alwaysSucceedsValidator :: Validator
 alwaysSucceedsValidator = mkValidatorScript $$(PlutusTx.compile [|| alwaysSucceeds ||])  
@@ -46,7 +52,10 @@ redeemer11Validator :: Validator
 redeemer11Validator = mkValidatorScript $$(PlutusTx.compile [|| redeemer11 ||])  
 
 datum22Validator :: Validator
-datum22Validator = mkValidatorScript $$(PlutusTx.compile [|| datum22 ||])  
+datum22Validator = mkValidatorScript $$(PlutusTx.compile [|| datum22 ||]) 
+
+redeemEqualValidator :: Validator
+redeemEqualValidator = mkValidatorScript $$(PlutusTx.compile [|| redeemEqual ||]) 
 
 
 {- Serialised Scripts and Values -}
@@ -62,6 +71,9 @@ saveRedeemer11 =  writeValidatorToFile "./testnet/redeemer11.plutus" redeemer11V
 
 saveDatum22 :: IO ()
 saveDatum22 =  writeValidatorToFile "./testnet/datum22.plutus" datum22Validator
+
+saveRedeemerEqual :: IO ()
+saveRedeemerEqual =  writeValidatorToFile "./testnet/redeemEqual.plutus" redeemEqualValidator
 
 saveUnit :: IO ()
 saveUnit = writeDataToFile "./testnet/unit.json" ()
@@ -89,3 +101,4 @@ saveAll = do
             saveFalse
             saveValue11
             saveValue22
+            saveRedeemerEqual

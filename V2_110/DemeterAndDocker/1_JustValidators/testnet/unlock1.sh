@@ -1,6 +1,6 @@
 utxoin="b6969f003401ab3e242a4e8db7e903ac5131b3a028a80749b519bf142c720ab0#0"
-address=$(cat ialice.addr) 
-output="450000000"
+address=$(cat redeemEqual.addr) 
+output="4000000"
 collateral="4cbf990857530696a12b0062546a4b123ad0bef21c67562e32d03e3288bdcd7b#0"
 signerPKH=$(cat ialice.pkh)
 nami="<provide a wallet to see the tx in blockchain explorers>" 
