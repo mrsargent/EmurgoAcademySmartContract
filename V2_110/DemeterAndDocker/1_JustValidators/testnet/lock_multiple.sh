@@ -12,6 +12,12 @@ cardano-cli transaction build \
   --tx-in $utxoin \
   --tx-out $address+$output \
   --tx-out-datum-hash-file value22.json \
+  --tx-in $utxoin \
+  --tx-out $address+$output \
+  --tx-out-datum-hash-file unit.json \
+  --tx-in $utxoin \
+  --tx-out $address+$output \
+  --tx-out-datum-hash-file True.json \
   --change-address $nami \
   --protocol-params-file protocol.params \
   --out-file give.unsigned

@@ -1,0 +1,26 @@
+Creating a contract
+1. Create the script in haskell or equivalent
+2. serialize the script and write to .plutus file 
+3. run a command such as "cardano-cli address build --payment-script-file AlwaysSucceedScript.plutus --testnet-magic 2 --out-file AlwaysSucceedScript.addr"
+    to derive the address from the serialized script 
+
+
+Locking value and data on a smart contract
+1. you are sending a contract address value in ADA from an address
+2. you are also sending that address a datum
+3. the address will contain a utxo that will contain the hash of the datum 
+4. the only signature needed is the one of the collateral
+
+
+Unlocking value and data from a smart contract
+1. for the -tx-in you are going to use the a uxto from the smart contract address
+2. you are sending a value specified in the output from the contract to address
+2a. you are using the actual plutus file that contains the cbor hex of the smart contract 
+3. you are sending a datum and redeemer to that contract to validate the logic in the contract. 
+4. the only signature needed is the one of the collateral 
+
+
+Questions??
+when unlocking a transaction can you output value to multiple addresses?
+it seems strange to me that when I unlock to uxtos both containing a value of 5A that the output only sends 3A to the destination address
+and the rest (6.28A) is sent as change????
