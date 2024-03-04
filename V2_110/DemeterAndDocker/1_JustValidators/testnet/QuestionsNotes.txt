@@ -24,3 +24,6 @@ Questions??
 when unlocking a transaction can you output value to multiple addresses?
 it seems strange to me that when I unlock to uxtos both containing a value of 5A that the output only sends 3A to the destination address
 and the rest (6.28A) is sent as change????
+
+
+yesterday in your example where did the alwaysfailt script come in to play.  I thought we were using dER script?
