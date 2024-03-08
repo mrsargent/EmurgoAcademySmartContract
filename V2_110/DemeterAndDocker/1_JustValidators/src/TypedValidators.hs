@@ -14,6 +14,9 @@ import                  Mappers                        (wrapValidator)
 import                  Serialization                  (writeValidatorToFile, writeDataToFile)
 import                  Prelude                     (IO)
 
+--import Data.Bool (Bool(True))
+--import Distribution.Simple.Setup (TestFlags(testFailWhenNoTestSuites))
+
 ------------------------------------------------------------------------------------------
 -- Primites Types
 ------------------------------------------------------------------------------------------
@@ -29,12 +32,32 @@ typedRedeemer11 _ redeemer _ = traceIfFalse "Not the right redeemer!" (redeemer 
 ------------------------------------------------------------------------------------------
 -- Custom Types
 ------------------------------------------------------------------------------------------
-
+{-
 newtype OurWonderfullDatum = OWD Integer
 unstableMakeIsData ''OurWonderfullDatum
 
 data OurWonderfullRedeemer = OWR Integer | JOKER Bool
 makeIsDataIndexed ''OurWonderfullRedeemer [('OWR,0),('JOKER,1)]
+-}
+
+data RyanCustomTest = RCT Integer | ROBIN Bool | EmptyRCT 
+--unstableMakeIsData ''RyanCustomTest 
+makeIsDataIndexed ''RyanCustomTest [('RCT,42),('ROBIN,101),('EmptyRCT,30)]
+
+data OurWonderfullDatum = OWD Integer | BATMAN Bool | EmptyDatum
+unstableMakeIsData ''OurWonderfullDatum
+
+data OurWonderfullRedeemer = OWR Integer | JOKER Bool | EmptyRedeemer
+unstableMakeIsData ''OurWonderfullRedeemer 
+
+--my custom function
+{-# INLINABLE cDeR #-}
+cDeR :: OurWonderfullDatum -> OurWonderfullRedeemer -> ScriptContext -> Bool 
+cDeR (OWD d) (OWR r) _          = traceIfFalse "datum and redeemer not equal" $ d == r
+cDeR (BATMAN d) (JOKER r) _     = traceIfFalse "datum and redeemer not equal" $ d == r
+cDeR (OWD d) (JOKER r) _        = traceIfFalse "different types" False 
+cDeR (BATMAN d) (OWR r) _       = traceIfFalse "different types" False 
+cDeR EmptyDatum EmptyRedeemer _ = True
 
 {-# INLINABLE customTypedDatum22 #-}
 customTypedDatum22 :: OurWonderfullDatum -> () -> ScriptContext -> Bool
@@ -44,6 +67,7 @@ customTypedDatum22 (OWD datum) _ _ = traceIfFalse "Not the right datum!" (datum 
 customTypedRedeemer11 ::  () -> OurWonderfullRedeemer -> ScriptContext -> Bool
 customTypedRedeemer11 _ (OWR number) _    =  traceIfFalse "Not the right redeemer!" (number ==  11)
 customTypedRedeemer11 _ (JOKER boolean) _ =  traceIfFalse "The Joker sais no!" boolean
+
 
 ------------------------------------------------------------------------------------------
 -- Mappers and Compiling expresions
@@ -78,10 +102,21 @@ customTypedDatum22Val = PlutusV2.mkValidatorScript $$(PlutusTx.compile [|| mappe
 customTypedRedeemer11Val :: Validator
 customTypedRedeemer11Val = PlutusV2.mkValidatorScript $$(PlutusTx.compile [|| mappedCustomTypedRedeemer11 ||])
 
+--my function for turning back in to BuiltinData
+mappedDeR :: BuiltinData -> BuiltinData -> BuiltinData -> () 
+mappedDeR = wrapValidator cDeR 
+
+customDeR :: Validator 
+customDeR = PlutusV2.mkValidatorScript $$(PlutusTx.compile [|| mappedDeR ||])
+
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 
 {- Serialised Scripts and Values -}
+--my functions to save the data
+saveDeR :: IO()
+saveDeR = writeValidatorToFile "./testnet/cDeR.plutus" customDeR
+
 
 saveTypedDatum22 :: IO ()
 saveTypedDatum22 =  writeValidatorToFile "./testnet/typedDatum22.plutus" typedDatum22Val
@@ -114,10 +149,29 @@ saveOWR  :: IO ()
 saveOWR = writeDataToFile "./testnet/OWR.json" ()
 
 saveGoodJOKER :: IO ()
-saveGoodJOKER = writeDataToFile "./testnet/GoodJoker.json" (JOKER True)
+saveGoodJOKER = writeDataToFile "./testnet/GoodJokerAutoIndex.json" (JOKER True)
 
 saveBadJOKER :: IO ()
-saveBadJOKER = writeDataToFile "./testnet/BadJoker.json" (JOKER False)
+saveBadJOKER = writeDataToFile "./testnet/BadJokerAutoIndex.json" (JOKER False)
+
+saveDatum33  :: IO ()
+saveDatum33 = writeDataToFile "./testnet/datum33.json" (OWD 33)
+
+saveRedeem33  :: IO ()
+saveRedeem33 = writeDataToFile "./testnet/redeem33.json" (OWR 33)
+
+saveGoodBatman :: IO ()
+saveGoodBatman = writeDataToFile "./testnet/GoodBatman.json" (BATMAN True)
+
+saveBadBatman :: IO ()
+saveBadBatman = writeDataToFile "./testnet/BadBatman.json" (BATMAN False)
+
+saveEmptyDatum :: IO ()
+saveEmptyDatum = writeDataToFile "./testnet/EmptyDatum.json" EmptyDatum
+
+saveEmptyRedeem :: IO ()
+saveEmptyRedeem = writeDataToFile "./testnet/EmptyRedeem.json" EmptyRedeemer
+
 
 saveAll :: IO ()
 saveAll = do
@@ -133,4 +187,30 @@ saveAll = do
             saveOWR
             saveGoodJOKER
             saveBadJOKER
+            saveDeR
+            saveDatum33
+            saveRedeem33
+            saveGoodBatman
+            saveBadBatman
+            saveEmptyDatum
+            saveEmptyRedeem
+
+
+saveTestTypeNumber :: IO ()
+saveTestTypeNumber = writeDataToFile "./testnet/TestTypeNumber.json" (RCT 33)
+
+saveTestTypeBool :: IO ()
+saveTestTypeBool = writeDataToFile "./testnet/TestTypeBool.json" (ROBIN True)
+
+saveTestTypeEmpty :: IO ()
+saveTestTypeEmpty = writeDataToFile "./testnet/TestTypeEmpty.json" EmptyRCT
+
+saveTest :: IO ()
+saveTest = do
+            saveTestTypeNumber
+            saveTestTypeBool
+            saveTestTypeEmpty
+
+
+
             
