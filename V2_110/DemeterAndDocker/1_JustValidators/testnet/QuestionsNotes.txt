@@ -27,3 +27,10 @@ and the rest (6.28A) is sent as change????
 
 
 yesterday in your example where did the alwaysfailt script come in to play.  I thought we were using dER script?
+
+
+the inline datum seems more usable.  Because let's say someone submitted a smart contract online.  Then someone else tried to unlock the value.  They would have to know the datums hash in order
+to unlock??? With inline datums they wouldn't have to know this?
+
+The point to remember is that in Cardano the smartcontract INCLUDES the tx definition, so tx interval vs validator interval is the condition to check
+
